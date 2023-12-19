@@ -6,7 +6,12 @@ const Layout = () => {
       screenOptions={{
         headerShown: false,
       }}
-    />
+    >
+      <Stack.Screen name="index" />
+      <Stack.Screen name="watches" />
+      <Stack.Screen name="search" />
+    </Stack>
   );
 };
+
 export default Layout;

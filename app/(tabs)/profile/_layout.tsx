@@ -4,7 +4,7 @@ const Layout = () => {
   return (
     <Stack
       screenOptions={{
-        headerTitle: "Daniels",
+        headerShown: false,
       }}
     />
   );

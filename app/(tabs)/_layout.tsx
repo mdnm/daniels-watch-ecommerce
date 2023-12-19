@@ -1,22 +1,9 @@
-import { FontAwesome } from "@expo/vector-icons";
-import { Text, config } from "@gluestack-ui/themed";
+import { Heart, Home, User } from "@nandorojo/heroicons/20/solid";
 import { Tabs } from "expo-router";
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return (
-    <FontAwesome
-      size={22}
-      style={{ margin: 0, padding: 0, marginBottom: -5 }}
-      {...props}
-    />
-  );
-}
+import { useEffect } from "react";
+import { Text } from "react-native";
+import colors from "tailwindcss/colors";
+import { useCustomer } from "../../contexts/CustomerContext";
 
 function TabBarLabel({
   color,
@@ -25,33 +12,40 @@ function TabBarLabel({
   color: string;
   children: React.ReactNode;
 }) {
-  return (
-    <Text color={color} fontSize={12}>
-      {children}
-    </Text>
-  );
+  return <Text className="text-xs">{children}</Text>;
 }
 
 export default function TabLayout() {
+  const { customer, refetch } = useCustomer();
+
+  useEffect(() => {
+    if (!customer) {
+      refetch();
+    }
+  }, [customer]);
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: config.theme.tokens.colors.light800,
-        tabBarStyle: {
-          height: 50,
-          justifyContent: "center",
-        },
+        tabBarActiveTintColor: colors.gray[800],
         headerShown: false,
       }}
       initialRouteName="index"
     >
       <Tabs.Screen
-        name="index"
+        name="(discover)"
         options={{
           title: "Discover",
           tabBarLabelPosition: "below-icon",
           tabBarLabel: TabBarLabel,
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Home
+              width={28}
+              style={{ marginTop: 5 }}
+              height={28}
+              color={color}
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -60,7 +54,14 @@ export default function TabLayout() {
           title: "Favorites",
           tabBarLabelPosition: "below-icon",
           tabBarLabel: TabBarLabel,
-          tabBarIcon: ({ color }) => <TabBarIcon name="heart" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Heart
+              width={28}
+              style={{ marginTop: 5 }}
+              height={28}
+              color={color}
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -69,7 +70,14 @@ export default function TabLayout() {
           title: "Profile",
           tabBarLabelPosition: "below-icon",
           tabBarLabel: TabBarLabel,
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <User
+              width={28}
+              style={{ marginTop: 5 }}
+              height={28}
+              color={color}
+            />
+          ),
         }}
       />
     </Tabs>
